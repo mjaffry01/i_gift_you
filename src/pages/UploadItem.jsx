@@ -408,57 +408,38 @@ export default function UploadItem() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 md:flex">
+    <div
+      className="relative min-h-screen"
+      style={{
+        backgroundImage: 'url(https://images.unsplash.com/photo-1463335361701-e90f4c5045d0?auto=format&fit=crop&w=1200&q=85)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 15%',
+      }}
+    >
+      {/* Very light overlay — keeps the image vivid but improves text contrast */}
+      <div className="absolute inset-0 bg-teal-950/30" />
 
-      {/* ── LEFT PANEL: sticky photo (desktop only) ── */}
-      <div className="hidden md:block md:w-5/12 lg:w-1/2 shrink-0 sticky top-16 self-start h-[calc(100vh-4rem)] overflow-hidden">
-        <img
-          src="https://images.unsplash.com/photo-1463335361701-e90f4c5045d0?auto=format&fit=crop&w=900&q=85"
-          alt="Happy smiling woman"
-          className="w-full h-full object-cover"
-          style={{ objectPosition: 'center 12%' }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-teal-950/25" />
-        <div className="absolute bottom-10 left-6 right-6">
-          <p className="text-white font-bold text-2xl leading-snug drop-shadow-lg">
-            Your gift will make<br />someone smile 🎁
-          </p>
-          <p className="text-teal-100 text-sm mt-2 drop-shadow">
-            Give your unused items a second life — free &amp; local.
-          </p>
-        </div>
-      </div>
+      <div className="relative z-10 min-h-screen py-4 md:py-8 px-4">
+        <div className="max-w-xl mx-auto">
+          <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-white/90 hover:text-white mb-4 text-sm drop-shadow">
+            <ArrowLeft size={16} /> {U.back}
+          </button>
 
-      {/* ── RIGHT PANEL: form ── */}
-      <div className="flex-1 flex flex-col">
-
-        {/* Mobile: image banner showing her face */}
-        <div className="md:hidden relative h-56 overflow-hidden">
-          <img
-            src="https://images.unsplash.com/photo-1463335361701-e90f4c5045d0?auto=format&fit=crop&w=800&q=85"
-            alt="Happy smiling woman"
-            className="w-full h-full object-cover"
-            style={{ objectPosition: 'center 8%' }}
-          />
-          {/* gradient fades into the form area below */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-slate-50" />
-          <div className="absolute bottom-3 left-4 right-4">
-            <p className="text-white font-bold text-lg drop-shadow-lg">
+          {/* Tagline */}
+          <div className="mb-4 text-center">
+            <p className="text-white font-bold text-xl md:text-2xl drop-shadow-lg">
               Your gift will make someone smile 🎁
             </p>
+            <p className="text-teal-100 text-sm mt-1 drop-shadow">
+              Give your unused items a second life — free &amp; local.
+            </p>
           </div>
-        </div>
 
-        <div className="py-4 md:py-8 px-4 md:px-8 flex-1">
-          <div className="max-w-xl mx-auto">
-            <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-slate-500 hover:text-slate-700 mb-4 text-sm">
-              <ArrowLeft size={16} /> {U.back}
-            </button>
-
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        {/* ── Frosted glass card ── */}
+        <div className="bg-white/70 backdrop-blur-md rounded-2xl shadow-xl border border-white/50 overflow-hidden">
           <div className="p-5 md:p-8">
           <h1 className="text-2xl font-bold text-slate-800 mb-1">{U.title}</h1>
-          <p className="text-slate-500 text-sm mb-6">{U.subtitle}</p>
+          <p className="text-slate-600 text-sm mb-6">{U.subtitle}</p>
 
           <form onSubmit={handleSubmit} noValidate className="space-y-5">
 
@@ -498,7 +479,7 @@ export default function UploadItem() {
               {gifts.map((gift, index) => {
                 const giftErrors = errors.gifts?.[index] || {}
                 return (
-                  <div key={index} className="border border-slate-200 rounded-xl p-4 space-y-4 bg-slate-50/60">
+                  <div key={index} className="border border-white/60 rounded-xl p-4 space-y-4 bg-white/50">
                     <div className="flex items-center justify-between gap-3">
                       <p className="text-sm font-semibold text-slate-700">Item {index + 1}</p>
                       {gifts.length > 1 && (
@@ -635,12 +616,11 @@ export default function UploadItem() {
               {loading ? U.uploading : U.submitBtn}
             </button>
           </form>
-          </div>{/* end inner padding div */}
-        </div>{/* end card */}
-          </div>{/* end max-w-xl */}
-        </div>{/* end py/px wrapper */}
-      </div>{/* end right panel */}
-    </div>{/* end md:flex root */}
+          </div>{/* end inner padding p-5 */}
+        </div>{/* end frosted glass card */}
+        </div>{/* end max-w-xl */}
+      </div>{/* end z-10 wrapper */}
+    </div>{/* end background root */}
 
       {showCamera && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
