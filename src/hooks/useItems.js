@@ -1,10 +1,26 @@
 import { useState, useEffect } from 'react'
 import {
-  collection, addDoc, getDocs, doc, updateDoc, query,
-  orderBy, onSnapshot, serverTimestamp, where
+  collection, addDoc, doc, updateDoc, query,
+  orderBy, onSnapshot, serverTimestamp,
 } from 'firebase/firestore'
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-import { db, storage } from '../firebase'
+import { db } from '../firebase'
+
+// Replace with your Cloudinary cloud name and upload preset
+const CLOUDINARY_CLOUD_NAME = 'dpllz6vbv'
+const CLOUDINARY_UPLOAD_PRESET = 'igiftyou_unsigned'
+
+async function uploadImageToCloudinary(file) {
+  const formData = new FormData()
+  formData.append('file', file)
+  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+    { method: 'POST', body: formData }
+  )
+  const data = await res.json()
+  if (!res.ok) throw new Error(data.error?.message || 'Image upload failed')
+  return data.secure_url
+}
 
 export function useItems() {
   const [items, setItems] = useState([])
@@ -19,18 +35,10 @@ export function useItems() {
     return unsub
   }, [])
 
-  async function uploadImage(file) {
-    const ext = file.name.split('.').pop()
-    const path = `items/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`
-    const storageRef = ref(storage, path)
-    await uploadBytes(storageRef, file)
-    return getDownloadURL(storageRef)
-  }
-
   async function addItem(data, imageFile) {
     let imageUrl = null
     if (imageFile) {
-      imageUrl = await uploadImage(imageFile)
+      imageUrl = await uploadImageToCloudinary(imageFile)
     }
     const docRef = await addDoc(collection(db, 'items'), {
       ...data,
