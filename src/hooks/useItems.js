@@ -9,9 +9,27 @@ import { db } from '../firebase'
 const CLOUDINARY_CLOUD_NAME = 'dpllz6vbv'
 const CLOUDINARY_UPLOAD_PRESET = 'igiftyou_unsigned'
 
+function compressImage(file, maxWidth = 900, quality = 0.75) {
+  return new Promise((resolve) => {
+    const img = new Image()
+    const url = URL.createObjectURL(file)
+    img.onload = () => {
+      const scale = Math.min(1, maxWidth / img.width)
+      const canvas = document.createElement('canvas')
+      canvas.width = img.width * scale
+      canvas.height = img.height * scale
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height)
+      URL.revokeObjectURL(url)
+      canvas.toBlob(resolve, 'image/jpeg', quality)
+    }
+    img.src = url
+  })
+}
+
 async function uploadImageToCloudinary(file) {
+  const compressed = await compressImage(file)
   const formData = new FormData()
-  formData.append('file', file)
+  formData.append('file', compressed)
   formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET)
   const res = await fetch(
     `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
