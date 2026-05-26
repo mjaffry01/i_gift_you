@@ -36,32 +36,32 @@ export default function Home() {
   })
 
   return (
-    <div className="min-h-screen">
+    <div>
 
       {/* Hero */}
-      <div className="relative bg-gradient-to-br from-teal-600 via-teal-500 to-teal-700 text-white py-10 md:py-16 px-4 overflow-hidden">
-        <div className="absolute top-0 right-0 w-72 h-72 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/2" />
-        <div className="absolute bottom-0 left-0 w-52 h-52 rounded-full bg-white/5 translate-y-1/2 -translate-x-1/2" />
+      <div className="relative bg-gradient-to-br from-teal-600 via-teal-500 to-teal-700 text-white py-5 md:py-16 px-4 overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/2 hidden md:block" />
+        <div className="absolute bottom-0 left-0 w-52 h-52 rounded-full bg-white/5 translate-y-1/2 -translate-x-1/2 hidden md:block" />
         <div className="max-w-3xl mx-auto text-center relative">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <span className="text-3xl md:text-4xl">🎁</span>
-            <h1 className="text-3xl md:text-5xl font-bold tracking-tight">I Gift You</h1>
-            <span className="text-3xl md:text-4xl">🎁</span>
+          <div className="flex items-center justify-center gap-2 mb-1">
+            <span className="text-2xl md:text-4xl">🎁</span>
+            <h1 className="text-2xl md:text-5xl font-bold tracking-tight">I Gift You</h1>
+            <span className="text-2xl md:text-4xl">🎁</span>
           </div>
-          <p className="text-white text-xl md:text-3xl font-bold mt-2">
+          <p className="text-white text-base md:text-3xl font-bold mt-1">
             Share love and get love
           </p>
-          <p className="text-teal-100 text-sm md:text-base mt-3 max-w-xl mx-auto px-2">
+          <p className="text-teal-100 text-xs md:text-base mt-1.5 max-w-xl mx-auto px-2 hidden md:block">
             Give your unused items a second life — free for anyone who needs them.
           </p>
-          <p className="text-teal-50 text-xs md:text-sm mt-1.5 max-w-lg mx-auto px-2">
+          <p className="text-teal-50 text-xs md:text-sm mt-1 max-w-lg mx-auto px-2 hidden md:block">
             Toys, books, clothes, shoes, kitchen items and more — across India.
           </p>
 
           {/* Search bar */}
-          <div className="mt-6 flex gap-0 bg-white rounded-2xl shadow-lg max-w-xl mx-auto overflow-hidden">
+          <div className="mt-3 md:mt-6 flex gap-0 bg-white rounded-2xl shadow-lg max-w-xl mx-auto overflow-hidden">
             <div className="flex-1 flex items-center gap-2 px-3 py-2.5">
-              <Search size={17} className="text-slate-400 shrink-0" />
+              <Search size={16} className="text-slate-400 shrink-0" />
               <input
                 type="text"
                 placeholder="Search toys, books, clothes..."
@@ -80,14 +80,14 @@ export default function Home() {
           </div>
 
           {/* Stats */}
-          <div className="flex gap-6 justify-center mt-6 text-teal-100 text-sm">
-            <span>
-              <strong className="text-white text-xl md:text-2xl block">{items.filter(i => i.status !== 'gifted').length}</strong>
+          <div className="flex gap-5 justify-center mt-3 md:mt-6 text-teal-100 text-xs md:text-sm">
+            <span className="flex items-center gap-1.5">
+              <strong className="text-white text-base md:text-2xl">{items.filter(i => i.status !== 'gifted').length}</strong>
               Available gifts
             </span>
-            <span className="text-teal-300 self-center text-lg">|</span>
-            <span>
-              <strong className="text-white text-xl md:text-2xl block">{items.filter(i => i.status === 'gifted').length}</strong>
+            <span className="text-teal-300">|</span>
+            <span className="flex items-center gap-1.5">
+              <strong className="text-white text-base md:text-2xl">{items.filter(i => i.status === 'gifted').length}</strong>
               Items gifted
             </span>
           </div>
@@ -145,13 +145,13 @@ export default function Home() {
       </div>
 
       {/* Grid */}
-      <div className="max-w-6xl mx-auto px-4 py-6 md:py-8">
+      <div className="max-w-6xl mx-auto px-3 md:px-4 py-3 md:py-8">
         {loading ? (
           <div className="flex items-center justify-center py-24">
             <Loader2 size={32} className="animate-spin text-teal-600" />
           </div>
         ) : filtered.length === 0 ? (
-          <div className="text-center py-20">
+          <div className="text-center py-8 md:py-20">
             <div className="text-5xl mb-4">🎁</div>
             <h3 className="text-slate-500 text-lg font-medium">No items found</h3>
             <p className="text-slate-400 text-sm mt-1">
@@ -180,7 +180,7 @@ export default function Home() {
       </div>
 
       {/* How it works */}
-      <div className="bg-teal-50 border-t border-teal-100 py-12 md:py-16 px-4">
+      <div className="hidden md:block bg-teal-50 border-t border-teal-100 py-12 md:py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-xl md:text-2xl font-bold text-slate-800 mb-8 md:mb-10">How it works</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
@@ -200,21 +200,21 @@ export default function Home() {
       </div>
 
       {/* Bottom banner */}
-      <div className="bg-teal-700 text-white py-10 px-4 text-center">
-        <p className="text-xl md:text-2xl font-bold mb-2">Built for India, by Indians</p>
-        <p className="text-teal-100 text-sm max-w-lg mx-auto">
+      <div className="bg-teal-700 text-white py-5 md:py-10 px-4 text-center">
+        <p className="text-xl md:text-2xl font-bold mb-2 hidden md:block">Built for India, by Indians</p>
+        <p className="text-teal-100 text-sm max-w-lg mx-auto hidden md:block">
           From Mumbai to Chennai, Delhi to Hyderabad — share what you no longer need with someone nearby who truly needs it.
         </p>
         <button
           onClick={() => navigate('/upload')}
-          className="mt-5 bg-white hover:bg-teal-50 text-teal-700 px-6 py-3 rounded-xl font-semibold transition-colors shadow-sm"
+          className="hidden md:inline-flex mt-5 bg-white hover:bg-teal-50 text-teal-700 px-6 py-3 rounded-xl font-semibold transition-colors shadow-sm"
         >
           Start Gifting Today
         </button>
 
         {/* Share this website */}
-        <div className="mt-8 border-t border-teal-600 pt-8">
-          <p className="text-teal-100 text-sm font-medium mb-4">Spread the word — share I Gift You with your friends</p>
+        <div className="md:mt-8 md:border-t md:border-teal-600 md:pt-8">
+          <p className="text-teal-100 text-xs md:text-sm font-medium mb-3">Spread the word — share I Gift You with your friends</p>
           <div className="flex items-center justify-center gap-3 flex-wrap">
             {/* WhatsApp */}
             <a href={`https://wa.me/?text=${encodeURIComponent('Check out I Gift You 🎁 — a free platform to give away unused items to people who need them! https://mjaffry01.github.io/i_gift_you/')}`}
