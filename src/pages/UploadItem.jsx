@@ -414,9 +414,9 @@ export default function UploadItem() {
       <div
         className="fixed inset-0 -z-10"
         style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1463335361701-e90f4c5045d0?auto=format&fit=crop&w=1400&q=85)',
+          backgroundImage: 'url(https://images.unsplash.com/photo-1667278153546-99b944439112?auto=format&fit=crop&w=1400&q=85)',
           backgroundSize: 'cover',
-          backgroundPosition: '28% 22%',   /* face shifted LEFT so it shows beside the form */
+          backgroundPosition: '30% 10%',   /* face shifted LEFT — visible beside the form */
         }}
       />
       <div className="fixed inset-0 -z-10 bg-teal-950/20" />
@@ -424,10 +424,10 @@ export default function UploadItem() {
       {/* ── Mobile: face banner at top (portrait photo cropped to show the face) ── */}
       <div className="md:hidden relative h-52 overflow-hidden -mb-4">
         <img
-          src="https://images.unsplash.com/photo-1463335361701-e90f4c5045d0?auto=format&fit=crop&w=800&q=85"
+          src="https://images.unsplash.com/photo-1667278153546-99b944439112?auto=format&fit=crop&w=800&q=85"
           alt="Happy smiling woman"
           className="w-full h-full object-cover"
-          style={{ objectPosition: '50% 18%' }}
+          style={{ objectPosition: '50% 10%' }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-white/60" />
         <p className="absolute bottom-5 left-4 right-4 text-white font-bold text-lg drop-shadow-lg">
