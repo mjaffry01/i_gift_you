@@ -1,5 +1,5 @@
-﻿import { useState } from 'react'
-import { X, Bell, MapPin, CheckCircle2, Loader2 } from 'lucide-react'
+import { useState } from 'react'
+import { X, Bell, MapPin, CheckCircle2, Loader2, Gift } from 'lucide-react'
 import { subscribeEmail } from '../hooks/useItems'
 
 export default function SubscribeModal({ onClose }) {
@@ -42,7 +42,7 @@ export default function SubscribeModal({ onClose }) {
     try {
       await subscribeEmail(email, coords ? { ...coords, name: locationName } : null)
       setDone(true)
-    } catch (err) {
+    } catch {
       setError('Failed to subscribe. Please try again.')
     } finally {
       setLoading(false)
@@ -50,99 +50,120 @@ export default function SubscribeModal({ onClose }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md relative">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-sm relative overflow-hidden">
+
+        {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600"
+          className="absolute top-4 right-4 z-10 bg-white/80 hover:bg-slate-100 text-slate-500 rounded-full p-1.5 transition-colors"
         >
-          <X size={20} />
+          <X size={18} />
         </button>
 
-        <div className="p-6">
-          {done ? (
-            <div className="text-center py-6">
-              <CheckCircle2 size={56} className="text-rose-400 mx-auto mb-4" />
-              <h2 className="text-xl font-bold text-slate-800">You're subscribed!</h2>
-              <p className="text-slate-500 mt-2">
-                We'll notify you when new items are listed
-                {locationName ? ` near ${locationName}` : ''}.
-              </p>
-              <button
-                onClick={onClose}
-                className="mt-6 bg-teal-600 text-white px-6 py-2.5 rounded-lg font-medium"
-              >
-                Done
-              </button>
+        {done ? (
+          /* Success state */
+          <div className="text-center px-6 py-10">
+            <div className="w-20 h-20 bg-teal-50 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle2 size={40} className="text-teal-500" />
             </div>
-          ) : (
-            <>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="bg-teal-50 p-2 rounded-xl">
-                  <Bell size={24} className="text-teal-600" />
-                </div>
-                <div>
-                  <h2 className="text-lg font-bold text-slate-800">Get Notified</h2>
-                  <p className="text-sm text-slate-500">Be first to know about free gifts near you</p>
+            <h2 className="text-xl font-bold text-slate-800">You're all set!</h2>
+            <p className="text-slate-500 mt-2 text-sm leading-relaxed">
+              We'll let you know when new free gifts are listed
+              {locationName ? ` near ${locationName}` : ' in your area'}.
+            </p>
+            <button
+              onClick={onClose}
+              className="mt-6 w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-2xl font-semibold transition-colors"
+            >
+              Done
+            </button>
+          </div>
+        ) : (
+          <>
+            {/* Header banner */}
+            <div className="bg-gradient-to-br from-teal-500 to-teal-700 px-6 pt-8 pb-6 text-white text-center">
+              <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                <Bell size={28} className="text-white" />
+              </div>
+              <h2 className="text-xl font-bold">Never Miss a Free Gift!</h2>
+              <p className="text-teal-100 text-sm mt-1">
+                Get notified the moment something new is listed near you
+              </p>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
+
+              {/* Email */}
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                  Your email address
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  className="w-full border-2 border-slate-200 focus:border-teal-400 rounded-2xl px-4 py-3 text-sm outline-none transition-colors placeholder-slate-400"
+                />
+              </div>
+
+              {/* Location */}
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                  Your city or area
+                  <span className="ml-1 text-slate-400 font-normal">(optional)</span>
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={locationName}
+                    onChange={e => setLocationName(e.target.value)}
+                    placeholder="e.g. Andheri, Koramangala..."
+                    className="flex-1 border-2 border-slate-200 focus:border-teal-400 rounded-2xl px-4 py-3 text-sm outline-none transition-colors placeholder-slate-400 min-w-0"
+                  />
+                  <button
+                    type="button"
+                    onClick={detectLocation}
+                    disabled={detecting}
+                    className="flex items-center gap-1.5 text-sm font-semibold text-teal-600 border-2 border-teal-200 bg-teal-50 hover:bg-teal-100 px-3 py-2 rounded-2xl whitespace-nowrap transition-colors"
+                  >
+                    {detecting
+                      ? <Loader2 size={14} className="animate-spin" />
+                      : <MapPin size={14} />
+                    }
+                    Detect
+                  </button>
                 </div>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">
-                    Email address
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    placeholder="you@example.com"
-                    className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  />
-                </div>
+              {error && (
+                <p className="text-red-500 text-sm bg-red-50 border border-red-100 rounded-xl px-3 py-2">
+                  {error}
+                </p>
+              )}
 
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">
-                    Your location (optional â€” for nearby alerts)
-                  </label>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={locationName}
-                      onChange={e => setLocationName(e.target.value)}
-                      placeholder="e.g. Andheri, Koramangala, Banjara Hills..."
-                      className="flex-1 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-                    />
-                    <button
-                      type="button"
-                      onClick={detectLocation}
-                      disabled={detecting}
-                      className="flex items-center gap-1.5 text-sm text-teal-600 border border-teal-100 bg-teal-50 hover:bg-teal-50 px-3 py-2 rounded-xl whitespace-nowrap transition-colors"
-                    >
-                      {detecting ? <Loader2 size={14} className="animate-spin" /> : <MapPin size={14} />}
-                      Detect
-                    </button>
-                  </div>
-                </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white py-3.5 rounded-2xl font-bold text-base transition-colors flex items-center justify-center gap-2 shadow-md shadow-teal-100"
+              >
+                {loading
+                  ? <Loader2 size={20} className="animate-spin" />
+                  : <Bell size={20} />
+                }
+                Notify Me for Free
+              </button>
 
-                {error && <p className="text-red-500 text-sm">{error}</p>}
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
-                >
-                  {loading ? <Loader2 size={18} className="animate-spin" /> : <Bell size={18} />}
-                  Subscribe for Free
-                </button>
-              </form>
-            </>
-          )}
-        </div>
+              <p className="text-center text-xs text-slate-400">
+                No spam. Unsubscribe anytime.
+              </p>
+            </form>
+          </>
+        )}
       </div>
     </div>
   )
 }
-
-
