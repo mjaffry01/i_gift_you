@@ -1,8 +1,11 @@
 import { useState } from 'react'
-import { X, Bell, MapPin, CheckCircle2, Loader2, Gift } from 'lucide-react'
+import { X, Bell, MapPin, CheckCircle2, Loader2 } from 'lucide-react'
 import { subscribeEmail } from '../hooks/useItems'
+import { useLanguage } from '../context/LanguageContext'
 
 export default function SubscribeModal({ onClose }) {
+  const { T } = useLanguage()
+  const S = T.subscribe
   const [email, setEmail] = useState('')
   const [locationName, setLocationName] = useState('')
   const [detecting, setDetecting] = useState(false)
@@ -67,16 +70,15 @@ export default function SubscribeModal({ onClose }) {
             <div className="w-20 h-20 bg-teal-50 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle2 size={40} className="text-teal-500" />
             </div>
-            <h2 className="text-xl font-bold text-slate-800">You're all set!</h2>
+            <h2 className="text-xl font-bold text-slate-800">{S.doneTitle}</h2>
             <p className="text-slate-500 mt-2 text-sm leading-relaxed">
-              We'll let you know when new free gifts are listed
-              {locationName ? ` near ${locationName}` : ' in your area'}.
+              {S.doneMsg}{locationName ? ` ${S.doneNear} ${locationName}` : ''}.
             </p>
             <button
               onClick={onClose}
               className="mt-6 w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-2xl font-semibold transition-colors"
             >
-              Done
+              {S.done}
             </button>
           </div>
         ) : (
@@ -86,10 +88,8 @@ export default function SubscribeModal({ onClose }) {
               <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-3">
                 <Bell size={28} className="text-white" />
               </div>
-              <h2 className="text-xl font-bold">Never Miss a Free Gift!</h2>
-              <p className="text-teal-100 text-sm mt-1">
-                Get notified the moment something new is listed near you
-              </p>
+              <h2 className="text-xl font-bold">{S.title}</h2>
+              <p className="text-teal-100 text-sm mt-1">{S.subtitle}</p>
             </div>
 
             {/* Form */}
@@ -98,14 +98,14 @@ export default function SubscribeModal({ onClose }) {
               {/* Email */}
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-                  Your email address
+                  {S.emailLabel}
                 </label>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  placeholder="you@example.com"
+                  placeholder={S.emailPH}
                   className="w-full border-2 border-slate-200 focus:border-teal-400 rounded-2xl px-4 py-3 text-sm outline-none transition-colors placeholder-slate-400"
                 />
               </div>
@@ -113,15 +113,15 @@ export default function SubscribeModal({ onClose }) {
               {/* Location */}
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-                  Your city or area
-                  <span className="ml-1 text-slate-400 font-normal">(optional)</span>
+                  {S.locLabel}
+                  <span className="ml-1 text-slate-400 font-normal">{S.locOptional}</span>
                 </label>
                 <div className="flex gap-2">
                   <input
                     type="text"
                     value={locationName}
                     onChange={e => setLocationName(e.target.value)}
-                    placeholder="e.g. Andheri, Koramangala..."
+                    placeholder={S.locPH}
                     className="flex-1 border-2 border-slate-200 focus:border-teal-400 rounded-2xl px-4 py-3 text-sm outline-none transition-colors placeholder-slate-400 min-w-0"
                   />
                   <button
@@ -134,7 +134,7 @@ export default function SubscribeModal({ onClose }) {
                       ? <Loader2 size={14} className="animate-spin" />
                       : <MapPin size={14} />
                     }
-                    Detect
+                    {S.detect}
                   </button>
                 </div>
               </div>
@@ -154,11 +154,11 @@ export default function SubscribeModal({ onClose }) {
                   ? <Loader2 size={20} className="animate-spin" />
                   : <Bell size={20} />
                 }
-                Notify Me for Free
+                {S.notifyBtn}
               </button>
 
               <p className="text-center text-xs text-slate-400">
-                No spam. Unsubscribe anytime.
+                {S.noSpam}
               </p>
             </form>
           </>

@@ -4,12 +4,14 @@ import { Search, MapPin, SlidersHorizontal, Loader2 } from 'lucide-react'
 import ItemCard from '../components/ItemCard'
 import { useItems } from '../hooks/useItems'
 import { getDistanceKm } from '../utils/distance'
+import { useLanguage } from '../context/LanguageContext'
 
-const CATEGORIES = ['All', 'Toys', 'Books', 'Clothes', 'Shoes', 'Watches', 'Electronics', 'Kitchen', 'Other']
+const CAT_KEYS = ['All', 'Toys', 'Books', 'Clothes', 'Shoes', 'Watches', 'Electronics', 'Kitchen', 'Other']
 
 export default function Home() {
   const { items, loading } = useItems()
   const navigate = useNavigate()
+  const { T } = useLanguage()
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('All')
   const [maxKm, setMaxKm] = useState(50)
@@ -27,6 +29,7 @@ export default function Home() {
     const matchSearch = item.title.toLowerCase().includes(search.toLowerCase()) ||
       item.description?.toLowerCase().includes(search.toLowerCase())
     const matchCat = category === 'All' || item.category === category
+    // category state always stores English key
     let matchDist = true
     if (userLocation && item.lat && item.lng) {
       const km = getDistanceKm(userLocation.lat, userLocation.lng, item.lat, item.lng)
@@ -49,13 +52,13 @@ export default function Home() {
             <span className="text-2xl md:text-4xl">🎁</span>
           </div>
           <p className="text-white text-base md:text-3xl font-bold mt-1">
-            Share love and get love
+            {T.hero.tagline}
           </p>
           <p className="text-teal-100 text-xs md:text-base mt-1.5 max-w-xl mx-auto px-2 hidden md:block">
-            Give your unused items a second life — free for anyone who needs them.
+            {T.hero.subtitle}
           </p>
           <p className="text-teal-50 text-xs md:text-sm mt-1 max-w-lg mx-auto px-2 hidden md:block">
-            Toys, books, clothes, shoes, kitchen items and more — across India.
+            {T.hero.subtext}
           </p>
 
           {/* Search bar */}
@@ -64,7 +67,7 @@ export default function Home() {
               <Search size={16} className="text-slate-400 shrink-0" />
               <input
                 type="text"
-                placeholder="Search toys, books, clothes..."
+                placeholder={T.hero.search}
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 className="flex-1 text-slate-800 text-sm placeholder-slate-400 outline-none bg-transparent min-w-0"
@@ -75,7 +78,7 @@ export default function Home() {
               className="flex items-center gap-1 text-sm font-medium text-slate-600 hover:text-teal-600 border-l border-slate-200 px-3 transition-colors shrink-0"
             >
               <SlidersHorizontal size={15} />
-              <span className="hidden sm:inline">Filters</span>
+              <span className="hidden sm:inline">{T.hero.filters}</span>
             </button>
           </div>
 
@@ -83,12 +86,12 @@ export default function Home() {
           <div className="flex gap-5 justify-center mt-3 md:mt-6 text-teal-100 text-xs md:text-sm">
             <span className="flex items-center gap-1.5">
               <strong className="text-white text-base md:text-2xl">{items.filter(i => i.status !== 'gifted').length}</strong>
-              Available gifts
+              {T.hero.available}
             </span>
             <span className="text-teal-300">|</span>
             <span className="flex items-center gap-1.5">
               <strong className="text-white text-base md:text-2xl">{items.filter(i => i.status === 'gifted').length}</strong>
-              Items gifted
+              {T.hero.gifted}
             </span>
           </div>
         </div>
@@ -128,17 +131,17 @@ export default function Home() {
       {/* Category chips */}
       <div className="bg-white border-b border-slate-100">
         <div className="max-w-6xl mx-auto px-4 py-3 flex gap-2 overflow-x-auto scrollbar-hide">
-          {CATEGORIES.map(cat => (
+          {CAT_KEYS.map(key => (
             <button
-              key={cat}
-              onClick={() => setCategory(cat)}
+              key={key}
+              onClick={() => setCategory(key)}
               className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                category === cat
+                category === key
                   ? 'bg-teal-600 text-white'
                   : 'bg-slate-100 text-slate-600 hover:bg-teal-50 hover:text-teal-700'
               }`}
             >
-              {cat}
+              {T.cats[key]}
             </button>
           ))}
         </div>
@@ -153,22 +156,22 @@ export default function Home() {
         ) : filtered.length === 0 ? (
           <div className="text-center py-8 md:py-20">
             <div className="text-5xl mb-4">🎁</div>
-            <h3 className="text-slate-500 text-lg font-medium">No items found</h3>
+            <h3 className="text-slate-500 text-lg font-medium">{T.grid.noItems}</h3>
             <p className="text-slate-400 text-sm mt-1">
-              {search || category !== 'All' ? 'Try adjusting your filters' : 'Be the first to list a gift in your area!'}
+              {search || category !== 'All' ? T.grid.adjustFilters : T.grid.beFirst}
             </p>
             <button
               onClick={() => navigate('/upload')}
               className="mt-4 bg-teal-600 hover:bg-teal-700 text-white px-5 py-2.5 rounded-xl font-medium"
             >
-              Gift an Item
+              {T.grid.giftBtn}
             </button>
           </div>
         ) : (
           <>
             <p className="text-sm text-slate-500 mb-4">
-              {filtered.length} gift{filtered.length !== 1 ? 's' : ''} available
-              {userLocation ? ' near you' : ''}
+              {filtered.length} {T.grid.available}
+              {userLocation ? ` ${T.grid.nearYou}` : ''}
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
               {filtered.map(item => (
@@ -182,12 +185,12 @@ export default function Home() {
       {/* How it works */}
       <div className="hidden md:block bg-teal-50 border-t border-teal-100 py-12 md:py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-xl md:text-2xl font-bold text-slate-800 mb-8 md:mb-10">How it works</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-slate-800 mb-8 md:mb-10">{T.howItWorks.title}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             {[
-              { icon: '📦', title: 'List your item', desc: 'Upload a photo of your unused toys, books, clothes, kitchen items or anything else you no longer need.' },
-              { icon: '💬', title: 'Connect on WhatsApp', desc: 'Interested people contact you directly on WhatsApp — no middleman, no fees, no hassle.' },
-              { icon: '🎁', title: 'Gift and share', desc: 'Hand over your item and share the news on social media. Inspire others to give too!' },
+              { icon: '📦', title: T.howItWorks.s1t, desc: T.howItWorks.s1d },
+              { icon: '💬', title: T.howItWorks.s2t, desc: T.howItWorks.s2d },
+              { icon: '🎁', title: T.howItWorks.s3t, desc: T.howItWorks.s3d },
             ].map(({ icon, title, desc }) => (
               <div key={title} className="flex flex-col items-center px-4">
                 <div className="text-5xl mb-3">{icon}</div>
@@ -201,20 +204,20 @@ export default function Home() {
 
       {/* Bottom banner */}
       <div className="bg-teal-700 text-white py-5 md:py-10 px-4 text-center">
-        <p className="text-xl md:text-2xl font-bold mb-2 hidden md:block">Built for India, by Indians</p>
+        <p className="text-xl md:text-2xl font-bold mb-2 hidden md:block">{T.footer.title}</p>
         <p className="text-teal-100 text-sm max-w-lg mx-auto hidden md:block">
-          From Mumbai to Chennai, Delhi to Hyderabad — share what you no longer need with someone nearby who truly needs it.
+          {T.footer.sub}
         </p>
         <button
           onClick={() => navigate('/upload')}
           className="hidden md:inline-flex mt-5 bg-white hover:bg-teal-50 text-teal-700 px-6 py-3 rounded-xl font-semibold transition-colors shadow-sm"
         >
-          Start Gifting Today
+          {T.footer.startGifting}
         </button>
 
         {/* Share this website */}
         <div className="md:mt-8 md:border-t md:border-teal-600 md:pt-8">
-          <p className="text-teal-100 text-xs md:text-sm font-medium mb-3">Spread the word — share I Gift You with your friends</p>
+          <p className="text-teal-100 text-xs md:text-sm font-medium mb-3">{T.footer.spread}</p>
           <div className="flex items-center justify-center gap-3 flex-wrap">
             {/* WhatsApp */}
             <a href={`https://wa.me/?text=${encodeURIComponent('Check out I Gift You 🎁 — a free platform to give away unused items to people who need them! https://mjaffry01.github.io/i_gift_you/')}`}
