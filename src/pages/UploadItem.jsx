@@ -414,7 +414,27 @@ export default function UploadItem() {
           <ArrowLeft size={16} /> {U.back}
         </button>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 md:p-8">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+
+          {/* Inspirational banner */}
+          <div className="relative h-44 md:h-52">
+            <img
+              src="https://images.unsplash.com/photo-1463335361701-e90f4c5045d0?w=900&q=80"
+              alt="Happy woman smiling"
+              className="w-full h-full object-cover object-top"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-teal-950/80 via-teal-900/30 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
+              <p className="text-white font-bold text-lg md:text-xl leading-snug drop-shadow">
+                Your gift will make someone smile 🎁
+              </p>
+              <p className="text-teal-100 text-xs md:text-sm mt-0.5">
+                Give your unused items a second life — free &amp; local.
+              </p>
+            </div>
+          </div>
+
+          <div className="p-5 md:p-8">
           <h1 className="text-2xl font-bold text-slate-800 mb-1">{U.title}</h1>
           <p className="text-slate-500 text-sm mb-6">{U.subtitle}</p>
 
@@ -593,6 +613,7 @@ export default function UploadItem() {
               {loading ? U.uploading : U.submitBtn}
             </button>
           </form>
+          </div>{/* end inner padding div */}
         </div>
       </div>
 
