@@ -9,7 +9,7 @@ import { db } from '../firebase'
 const CLOUDINARY_CLOUD_NAME = 'dpllz6vbv'
 const CLOUDINARY_UPLOAD_PRESET = 'igiftyou_unsigned'
 
-function compressImage(file, maxWidth = 900, quality = 0.75) {
+function compressImage(file, maxWidth = 600, quality = 0.6) {
   return new Promise((resolve) => {
     const img = new Image()
     const url = URL.createObjectURL(file)
