@@ -408,35 +408,53 @@ export default function UploadItem() {
   }
 
   return (
-    <div
-      className="relative min-h-screen"
-      style={{
-        backgroundImage: 'url(https://images.unsplash.com/photo-1463335361701-e90f4c5045d0?auto=format&fit=crop&w=1200&q=85)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center 15%',
-      }}
-    >
-      {/* Very light overlay — keeps the image vivid but improves text contrast */}
-      <div className="absolute inset-0 bg-teal-950/30" />
+    <div className="relative min-h-screen">
 
-      <div className="relative z-10 min-h-screen py-4 md:py-8 px-4">
-        <div className="max-w-xl mx-auto">
-          <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-white/90 hover:text-white mb-4 text-sm drop-shadow">
+      {/* ── Fixed background — stays in place as form scrolls (works on iOS too) ── */}
+      <div
+        className="fixed inset-0 -z-10"
+        style={{
+          backgroundImage: 'url(https://images.unsplash.com/photo-1463335361701-e90f4c5045d0?auto=format&fit=crop&w=1400&q=85)',
+          backgroundSize: 'cover',
+          backgroundPosition: '28% 22%',   /* face shifted LEFT so it shows beside the form */
+        }}
+      />
+      <div className="fixed inset-0 -z-10 bg-teal-950/20" />
+
+      {/* ── Mobile: face banner at top (portrait photo cropped to show the face) ── */}
+      <div className="md:hidden relative h-52 overflow-hidden -mb-4">
+        <img
+          src="https://images.unsplash.com/photo-1463335361701-e90f4c5045d0?auto=format&fit=crop&w=800&q=85"
+          alt="Happy smiling woman"
+          className="w-full h-full object-cover"
+          style={{ objectPosition: '50% 18%' }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-white/60" />
+        <p className="absolute bottom-5 left-4 right-4 text-white font-bold text-lg drop-shadow-lg">
+          Your gift will make someone smile 🎁
+        </p>
+      </div>
+
+      {/* ── Desktop tagline (top-left, beside the face) ── */}
+      <div className="hidden md:block absolute top-24 left-6 lg:left-12 max-w-xs z-10">
+        <p className="text-white font-bold text-2xl leading-snug drop-shadow-lg">
+          Your gift will<br />make someone<br />smile 🎁
+        </p>
+        <p className="text-teal-100 text-sm mt-2 drop-shadow">
+          Free &amp; local gifting.
+        </p>
+      </div>
+
+      <div className="relative z-10 min-h-screen py-4 md:py-8 px-4
+                      flex flex-col md:items-end md:justify-start">
+        <div className="w-full max-w-xl md:max-w-md lg:max-w-lg md:mr-6 lg:mr-16">
+
+          <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-white/90 hover:text-white mb-4 mt-2 text-sm drop-shadow">
             <ArrowLeft size={16} /> {U.back}
           </button>
 
-          {/* Tagline */}
-          <div className="mb-4 text-center">
-            <p className="text-white font-bold text-xl md:text-2xl drop-shadow-lg">
-              Your gift will make someone smile 🎁
-            </p>
-            <p className="text-teal-100 text-sm mt-1 drop-shadow">
-              Give your unused items a second life — free &amp; local.
-            </p>
-          </div>
-
         {/* ── Frosted glass card ── */}
-        <div className="bg-white/70 backdrop-blur-md rounded-2xl shadow-xl border border-white/50 overflow-hidden">
+        <div className="bg-white/75 backdrop-blur-md rounded-2xl shadow-xl border border-white/50 overflow-hidden">
           <div className="p-5 md:p-8">
           <h1 className="text-2xl font-bold text-slate-800 mb-1">{U.title}</h1>
           <p className="text-slate-600 text-sm mb-6">{U.subtitle}</p>
@@ -616,11 +634,11 @@ export default function UploadItem() {
               {loading ? U.uploading : U.submitBtn}
             </button>
           </form>
-          </div>{/* end inner padding p-5 */}
+          </div>{/* end p-5 */}
         </div>{/* end frosted glass card */}
-        </div>{/* end max-w-xl */}
-      </div>{/* end z-10 wrapper */}
-    </div>{/* end background root */}
+        </div>{/* end max-w column */}
+      </div>{/* end z-10 flex wrapper */}
+    </div>{/* end root */}
 
       {showCamera && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
