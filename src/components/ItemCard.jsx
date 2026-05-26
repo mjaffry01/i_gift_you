@@ -1,24 +1,26 @@
-import { Link } from 'react-router-dom'
+﻿import { Link } from 'react-router-dom'
 import { MapPin, MessageCircle, Tag, Clock } from 'lucide-react'
 import { formatDistance, getDistanceKm } from '../utils/distance'
 
 const CATEGORY_COLORS = {
   Toys: 'bg-yellow-100 text-yellow-700',
   Books: 'bg-blue-100 text-blue-700',
-  Shoes: 'bg-orange-100 text-orange-700',
+  Shoes: 'bg-orange-100 text-orange-600',
   Watches: 'bg-purple-100 text-purple-700',
   Clothes: 'bg-pink-100 text-pink-700',
   Electronics: 'bg-cyan-100 text-cyan-700',
+  Kitchen: 'bg-green-100 text-green-700',
   Other: 'bg-slate-100 text-slate-600',
 }
 
 const PLACEHOLDER_IMGS = {
-  Toys: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
-  Books: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&q=80',
+  Toys: 'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=400&q=80',
+  Books: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&q=80',
   Shoes: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80',
   Watches: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&q=80',
-  Clothes: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400&q=80',
+  Clothes: 'https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=400&q=80',
   Electronics: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=400&q=80',
+  Kitchen: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',
   Other: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400&q=80',
 }
 
@@ -33,7 +35,7 @@ export default function ItemCard({ item, userLocation }) {
   }
 
   const whatsappUrl = `https://wa.me/${item.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(
-    `Hi! I saw your "${item.title}" listed on I Gift You. Is it still available? 🎁`
+    `Hi! I saw your "${item.title}" listed on I Gift You. Is it still available? ðŸŽ`
   )}`
 
   const timeAgo = item.createdAt?.seconds
@@ -59,7 +61,7 @@ export default function ItemCard({ item, userLocation }) {
           {item.status === 'gifted' && (
             <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
               <span className="bg-emerald-500 text-white font-bold px-4 py-2 rounded-full text-sm">
-                Gifted ✓
+                Gifted âœ“
               </span>
             </div>
           )}
@@ -72,7 +74,7 @@ export default function ItemCard({ item, userLocation }) {
       {/* Body */}
       <div className="p-4">
         <Link to={`/item/${item.id}`}>
-          <h3 className="font-semibold text-slate-800 text-base line-clamp-1 hover:text-emerald-600 transition-colors">
+          <h3 className="font-semibold text-slate-800 text-base line-clamp-1 hover:text-orange-500 transition-colors">
             {item.title}
           </h3>
           <p className="text-slate-500 text-sm mt-1 line-clamp-2">{item.description}</p>
