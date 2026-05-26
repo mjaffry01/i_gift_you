@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Upload, MapPin, Phone, Tag, FileText, Camera, Loader2, CheckCircle2, X, ArrowLeft } from 'lucide-react'
+import { Upload, MapPin, Camera, Loader2, CheckCircle2, X, ArrowLeft, User, Phone, Home } from 'lucide-react'
 import { useItems } from '../hooks/useItems'
 
 const CATEGORIES = ['Toys', 'Books', 'Shoes', 'Watches', 'Clothes', 'Electronics', 'Other']
@@ -12,11 +12,14 @@ export default function UploadItem() {
   const fileRef = useRef()
 
   const [form, setForm] = useState({
+    gifterName: '',
     title: '',
     description: '',
     category: '',
     condition: '',
+    phone: '',
     whatsapp: '',
+    address: '',
     locationName: '',
   })
   const [imageFile, setImageFile] = useState(null)
@@ -49,8 +52,13 @@ export default function UploadItem() {
             `https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json`
           )
           const data = await res.json()
-          const name = data.address?.suburb || data.address?.city || data.address?.town || 'your area'
-          handleChange('locationName', name)
+          const suburb = data.address?.suburb || ''
+          const city = data.address?.city || data.address?.town || ''
+          const road = data.address?.road || ''
+          handleChange('locationName', [suburb, city].filter(Boolean).join(', ') || 'your area')
+          if (!form.address && road) {
+            handleChange('address', [road, suburb, city].filter(Boolean).join(', '))
+          }
         } catch {
           handleChange('locationName', 'Location detected')
         }
@@ -62,11 +70,13 @@ export default function UploadItem() {
 
   function validate() {
     const errs = {}
-    if (!form.title.trim()) errs.title = 'Title is required'
+    if (!form.gifterName.trim()) errs.gifterName = 'Your name is required'
+    if (!form.title.trim()) errs.title = 'Item name is required'
     if (!form.category) errs.category = 'Pick a category'
     if (!form.condition) errs.condition = 'Pick a condition'
     if (!form.whatsapp.trim()) errs.whatsapp = 'WhatsApp number is required'
-    if (!form.locationName.trim()) errs.locationName = 'Location is required'
+    if (!form.address.trim()) errs.address = 'Address is required'
+    if (!form.locationName.trim()) errs.locationName = 'Area / city is required'
     return errs
   }
 
@@ -74,41 +84,40 @@ export default function UploadItem() {
     e.preventDefault()
     const errs = validate()
     if (Object.keys(errs).length) { setErrors(errs); return }
-
     setLoading(true)
     try {
-      await addItem(
-        { ...form, ...(coords || {}) },
-        imageFile
-      )
+      await addItem({ ...form, ...(coords || {}) }, imageFile)
       setDone(true)
-    } catch (err) {
-      setErrors({ submit: 'Failed to upload. Please check your Firebase config and try again.' })
+    } catch {
+      setErrors({ submit: 'Failed to upload. Please check your connection and try again.' })
     } finally {
       setLoading(false)
     }
+  }
+
+  const resetForm = () => {
+    setDone(false)
+    setForm({ gifterName:'', title:'', description:'', category:'', condition:'', phone:'', whatsapp:'', address:'', locationName:'' })
+    setImageFile(null)
+    setImagePreview(null)
+    setCoords(null)
   }
 
   if (done) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 bg-slate-50">
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-10 max-w-md w-full text-center">
-          <CheckCircle2 size={64} className="text-emerald-500 mx-auto mb-4" />
+          <div className="text-6xl mb-4">🎁</div>
+          <CheckCircle2 size={48} className="text-emerald-500 mx-auto mb-3" />
           <h2 className="text-2xl font-bold text-slate-800">Item Listed!</h2>
-          <p className="text-slate-500 mt-2">
-            Your item is now live. People near you can find it and contact you on WhatsApp.
+          <p className="text-slate-500 mt-2 text-sm">
+            Your item is now live. People near <strong>{form.locationName}</strong> can find it and contact you directly.
           </p>
           <div className="flex gap-3 mt-8">
-            <button
-              onClick={() => navigate('/')}
-              className="flex-1 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-medium hover:bg-slate-50"
-            >
+            <button onClick={() => navigate('/')} className="flex-1 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-medium hover:bg-slate-50">
               Browse gifts
             </button>
-            <button
-              onClick={() => { setDone(false); setForm({ title:'',description:'',category:'',condition:'',whatsapp:'',locationName:'' }); setImageFile(null); setImagePreview(null); setCoords(null) }}
-              className="flex-1 bg-emerald-600 text-white py-2.5 rounded-xl font-medium"
-            >
+            <button onClick={resetForm} className="flex-1 bg-emerald-600 text-white py-2.5 rounded-xl font-medium">
               List another
             </button>
           </div>
@@ -116,6 +125,16 @@ export default function UploadItem() {
       </div>
     )
   }
+
+  const Field = ({ label, required, error, children }) => (
+    <div>
+      <label className="block text-sm font-medium text-slate-700 mb-1.5">
+        {label} {required && <span className="text-red-400">*</span>}
+      </label>
+      {children}
+      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+    </div>
+  )
 
   return (
     <div className="min-h-screen bg-slate-50 py-8 px-4">
@@ -126,152 +145,137 @@ export default function UploadItem() {
 
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8">
           <h1 className="text-2xl font-bold text-slate-800 mb-1">Gift an Item</h1>
-          <p className="text-slate-500 text-sm mb-6">Help someone who needs it. It's free and takes 2 minutes.</p>
+          <p className="text-slate-500 text-sm mb-6">Help someone who needs it. Free and takes 2 minutes.</p>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Photo upload */}
+
+            {/* Photo */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">
-                Photo <span className="text-slate-400 font-normal">(recommended)</span>
+                Photo <span className="text-slate-400 font-normal">(strongly recommended — items with photos get 5x more interest)</span>
               </label>
               <div
                 onClick={() => fileRef.current?.click()}
-                className={`relative cursor-pointer rounded-xl border-2 border-dashed transition-colors ${
-                  imagePreview ? 'border-emerald-300' : 'border-slate-200 hover:border-emerald-400'
-                } overflow-hidden`}
+                className={`relative cursor-pointer rounded-xl border-2 border-dashed transition-colors ${imagePreview ? 'border-emerald-300' : 'border-slate-200 hover:border-emerald-400'} overflow-hidden`}
               >
                 {imagePreview ? (
                   <div className="relative">
                     <img src={imagePreview} alt="preview" className="w-full h-52 object-cover" />
-                    <button
-                      type="button"
-                      onClick={e => { e.stopPropagation(); setImageFile(null); setImagePreview(null) }}
-                      className="absolute top-2 right-2 bg-black/60 text-white rounded-full p-1"
-                    >
+                    <button type="button" onClick={e => { e.stopPropagation(); setImageFile(null); setImagePreview(null) }}
+                      className="absolute top-2 right-2 bg-black/60 text-white rounded-full p-1">
                       <X size={14} />
                     </button>
                   </div>
                 ) : (
-                  <div className="flex flex-col items-center justify-center h-36 text-slate-400">
-                    <Camera size={32} className="mb-2" />
-                    <span className="text-sm">Click to add a photo</span>
+                  <div className="flex flex-col items-center justify-center h-40 text-slate-400 gap-2">
+                    <Camera size={36} />
+                    <span className="text-sm font-medium">Tap to add a photo</span>
+                    <span className="text-xs">JPG, PNG — any size accepted</span>
                   </div>
                 )}
               </div>
               <input ref={fileRef} type="file" accept="image/*" onChange={handleImage} className="hidden" />
             </div>
 
-            {/* Title */}
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Item name *</label>
-              <input
-                type="text"
-                value={form.title}
-                onChange={e => handleChange('title', e.target.value)}
-                placeholder="e.g. Lego City Police Set"
-                className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 ${errors.title ? 'border-red-400' : 'border-slate-200'}`}
-              />
-              {errors.title && <p className="text-red-500 text-xs mt-1">{errors.title}</p>}
-            </div>
+            {/* Gifter name */}
+            <Field label="Your name" required error={errors.gifterName}>
+              <div className="relative">
+                <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input type="text" value={form.gifterName} onChange={e => handleChange('gifterName', e.target.value)}
+                  placeholder="e.g. Fatima Moosa"
+                  className={`w-full border rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 ${errors.gifterName ? 'border-red-400' : 'border-slate-200'}`} />
+              </div>
+            </Field>
+
+            {/* Item name */}
+            <Field label="Item name" required error={errors.title}>
+              <input type="text" value={form.title} onChange={e => handleChange('title', e.target.value)}
+                placeholder="e.g. Lego City Police Set, Size 5 Nike Takkies, Harry Potter Books..."
+                className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 ${errors.title ? 'border-red-400' : 'border-slate-200'}`} />
+            </Field>
 
             {/* Description */}
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Description</label>
-              <textarea
-                value={form.description}
-                onChange={e => handleChange('description', e.target.value)}
-                placeholder="Brief description — age group, size, what's included..."
+            <Field label="Description">
+              <textarea value={form.description} onChange={e => handleChange('description', e.target.value)}
+                placeholder="Describe the item — age group, size, colour, what's included, reason for gifting..."
                 rows={3}
-                className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
-              />
-            </div>
+                className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none" />
+            </Field>
 
             {/* Category & Condition */}
             <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Category *</label>
-                <select
-                  value={form.category}
-                  onChange={e => handleChange('category', e.target.value)}
-                  className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 ${errors.category ? 'border-red-400' : 'border-slate-200'}`}
-                >
-                  <option value="">Select...</option>
+              <Field label="Category" required error={errors.category}>
+                <select value={form.category} onChange={e => handleChange('category', e.target.value)}
+                  className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 ${errors.category ? 'border-red-400' : 'border-slate-200'}`}>
+                  <option value="">Select category...</option>
                   {CATEGORIES.map(c => <option key={c}>{c}</option>)}
                 </select>
-                {errors.category && <p className="text-red-500 text-xs mt-1">{errors.category}</p>}
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Condition *</label>
-                <select
-                  value={form.condition}
-                  onChange={e => handleChange('condition', e.target.value)}
-                  className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 ${errors.condition ? 'border-red-400' : 'border-slate-200'}`}
-                >
-                  <option value="">Select...</option>
+              </Field>
+              <Field label="Condition" required error={errors.condition}>
+                <select value={form.condition} onChange={e => handleChange('condition', e.target.value)}
+                  className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 ${errors.condition ? 'border-red-400' : 'border-slate-200'}`}>
+                  <option value="">Select condition...</option>
                   {CONDITIONS.map(c => <option key={c}>{c}</option>)}
                 </select>
-                {errors.condition && <p className="text-red-500 text-xs mt-1">{errors.condition}</p>}
-              </div>
+              </Field>
             </div>
 
-            {/* WhatsApp */}
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                Your WhatsApp number *
-              </label>
+            {/* Phone & WhatsApp */}
+            <div className="grid grid-cols-2 gap-4">
+              <Field label="Phone number" error={errors.phone}>
+                <div className="relative">
+                  <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input type="tel" value={form.phone} onChange={e => handleChange('phone', e.target.value)}
+                    placeholder="e.g. 0831234567"
+                    className="w-full border border-slate-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                </div>
+              </Field>
+              <Field label="WhatsApp number" required error={errors.whatsapp}>
+                <div className="relative">
+                  <svg viewBox="0 0 24 24" className="w-4 h-4 fill-slate-400 absolute left-3 top-1/2 -translate-y-1/2">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                  </svg>
+                  <input type="tel" value={form.whatsapp} onChange={e => handleChange('whatsapp', e.target.value)}
+                    placeholder="e.g. 27831234567"
+                    className={`w-full border rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 ${errors.whatsapp ? 'border-red-400' : 'border-slate-200'}`} />
+                </div>
+                <p className="text-xs text-slate-400 mt-1">With country code e.g. 27831234567</p>
+              </Field>
+            </div>
+
+            {/* Address */}
+            <Field label="Street address" required error={errors.address}>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm">+</span>
-                <input
-                  type="tel"
-                  value={form.whatsapp}
-                  onChange={e => handleChange('whatsapp', e.target.value)}
-                  placeholder="27831234567"
-                  className={`w-full border rounded-xl pl-7 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 ${errors.whatsapp ? 'border-red-400' : 'border-slate-200'}`}
-                />
+                <Home size={14} className="absolute left-3.5 top-3.5 text-slate-400" />
+                <textarea value={form.address} onChange={e => handleChange('address', e.target.value)}
+                  placeholder="e.g. 12 Rose Street, Ext 4, Soweto&#10;(Where the person must collect the item)"
+                  rows={2}
+                  className={`w-full border rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none ${errors.address ? 'border-red-400' : 'border-slate-200'}`} />
               </div>
-              <p className="text-xs text-slate-400 mt-1">Include country code, no spaces. E.g. 27831234567</p>
-              {errors.whatsapp && <p className="text-red-500 text-xs mt-1">{errors.whatsapp}</p>}
-            </div>
+            </Field>
 
-            {/* Location */}
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                Location *
-              </label>
+            {/* Area / City */}
+            <Field label="Area / City" required error={errors.locationName}>
               <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={form.locationName}
-                  onChange={e => handleChange('locationName', e.target.value)}
-                  placeholder="e.g. Sandton, Johannesburg"
-                  className={`flex-1 border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 ${errors.locationName ? 'border-red-400' : 'border-slate-200'}`}
-                />
-                <button
-                  type="button"
-                  onClick={detectLocation}
-                  disabled={detecting}
-                  className="flex items-center gap-1.5 text-sm text-emerald-600 border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 px-3 py-2 rounded-xl whitespace-nowrap transition-colors"
-                >
+                <input type="text" value={form.locationName} onChange={e => handleChange('locationName', e.target.value)}
+                  placeholder="e.g. Sandton, Cape Town, Durban North..."
+                  className={`flex-1 border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 ${errors.locationName ? 'border-red-400' : 'border-slate-200'}`} />
+                <button type="button" onClick={detectLocation} disabled={detecting}
+                  className="flex items-center gap-1.5 text-sm text-emerald-600 border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 px-3 py-2 rounded-xl whitespace-nowrap transition-colors">
                   {detecting ? <Loader2 size={14} className="animate-spin" /> : <MapPin size={14} />}
                   Detect
                 </button>
               </div>
-              {errors.locationName && <p className="text-red-500 text-xs mt-1">{errors.locationName}</p>}
-            </div>
+            </Field>
 
             {errors.submit && (
-              <div className="bg-red-50 text-red-600 text-sm p-3 rounded-xl border border-red-200">
-                {errors.submit}
-              </div>
+              <div className="bg-red-50 text-red-600 text-sm p-3 rounded-xl border border-red-200">{errors.submit}</div>
             )}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3.5 rounded-xl font-semibold text-base flex items-center justify-center gap-2 transition-colors"
-            >
+            <button type="submit" disabled={loading}
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3.5 rounded-xl font-semibold text-base flex items-center justify-center gap-2 transition-colors">
               {loading ? <Loader2 size={20} className="animate-spin" /> : <Upload size={20} />}
-              {loading ? 'Uploading...' : 'List My Gift'}
+              {loading ? 'Uploading your gift...' : 'List My Gift for Free'}
             </button>
           </form>
         </div>
