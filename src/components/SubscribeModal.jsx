@@ -111,7 +111,7 @@ export default function SubscribeModal({ onClose }) {
                       type="text"
                       value={locationName}
                       onChange={e => setLocationName(e.target.value)}
-                      placeholder="e.g. Cape Town, Sandton..."
+                      placeholder="e.g. Andheri, Koramangala, Banjara Hills..."
                       className="flex-1 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                     />
                     <button
