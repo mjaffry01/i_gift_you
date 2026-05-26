@@ -38,7 +38,7 @@ const t = {
       title: 'Built for India, by Indians',
       sub: 'From Mumbai to Chennai, Delhi to Hyderabad — share what you no longer need with someone nearby who truly needs it.',
       startGifting: 'Start Gifting Today',
-      spread: 'Spread the word — share I Gift You with your friends',
+      spread: 'Spread the word — share Gift a Smile with your friends',
     },
     subscribe: {
       title: 'Never Miss a Free Gift!',
@@ -78,6 +78,7 @@ const t = {
       tapPhoto: 'Tap to add a photo',
       photoFormats: 'JPG, PNG — any size accepted',
       nameLabel: 'Your name', namePH: 'e.g. Priya Sharma, Ramesh Kumar',
+      emailLabel: 'Gifter email', emailPH: 'e.g. priya@example.com',
       itemLabel: 'Item name', itemPH: 'e.g. Kids cricket bat, NCERT books, Cotton kurta...',
       descLabel: 'Description', descPH: 'Size, age group, reason for gifting...',
       catLabel: 'Category', catPH: 'Select category...',
@@ -96,8 +97,9 @@ const t = {
       anotherBtn: 'List another',
       required: 'required',
       errors: {
-        name: 'Your name is required', title: 'Item name is required', category: 'Pick a category',
-        condition: 'Pick a condition', whatsapp: 'WhatsApp number is required',
+        name: 'Your name is required', email: 'Gifter email is required', emailInvalid: 'Enter a valid email address', title: 'Item name is required', category: 'Pick a category',
+        condition: 'Pick a condition', whatsapp: 'WhatsApp number is required', whatsappInvalid: 'Enter a valid WhatsApp number',
+        phoneInvalid: 'Enter a valid phone number',
         address: 'Address is required', location: 'Area / city is required',
         submit: 'Failed to upload. Please check your connection and try again.',
       },
@@ -135,7 +137,7 @@ const t = {
       title: 'भारत के लिए, भारतीयों द्वारा',
       sub: 'मुंबई से चेन्नई, दिल्ली से हैदराबाद — जो काम न आए, वो किसी और को दे दें।',
       startGifting: 'आज ही उपहार दें',
-      spread: 'I Gift You को अपने दोस्तों के साथ शेयर करें',
+      spread: 'Gift a Smile को अपने दोस्तों के साथ शेयर करें',
     },
     subscribe: {
       title: 'मुफ़्त उपहार न चूकें!',
@@ -232,7 +234,7 @@ const t = {
       title: 'ہندوستان کے لیے، ہندوستانیوں کے ذریعے',
       sub: 'ممبئی سے چنئی، دہلی سے حیدرآباد — جو کام نہ آئے، وہ کسی اور کو دے دیں۔',
       startGifting: 'آج ہی تحفہ دیں',
-      spread: 'I Gift You اپنے دوستوں کے ساتھ شیئر کریں',
+      spread: 'Gift a Smile اپنے دوستوں کے ساتھ شیئر کریں',
     },
     subscribe: {
       title: 'مفت تحفہ نہ چھوڑیں!',
@@ -329,7 +331,7 @@ const t = {
       title: 'भारतासाठी, भारतीयांनी',
       sub: 'मुंबईपासून चेन्नईपर्यंत, दिल्लीपासून हैदराबादपर्यंत — जे तुम्हाला नको ते कोणाला तरी द्या।',
       startGifting: 'आजच भेट द्या',
-      spread: 'I Gift You तुमच्या मित्रांसोबत शेअर करा',
+      spread: 'Gift a Smile तुमच्या मित्रांसोबत शेअर करा',
     },
     subscribe: {
       title: 'मोफत भेट चुकवू नका!',
@@ -426,7 +428,7 @@ const t = {
       title: 'ભારત માટે, ભારતીયો દ્વારા',
       sub: 'મુંબઈથી ચેન્નઈ, દિલ્હીથી હૈદરાબાદ — જે ન જોઈતું હોય તે કોઈ જરૂરિયાતમંદને આપો।',
       startGifting: 'આજે જ ભેટ આપો',
-      spread: 'I Gift You તમારા મિત્રો સાથે શેર કરો',
+      spread: 'Gift a Smile તમારા મિત્રો સાથે શેર કરો',
     },
     subscribe: {
       title: 'મફત ભેટ ચૂકશો નહીં!',
@@ -523,7 +525,7 @@ const t = {
       title: 'ਭਾਰਤ ਲਈ, ਭਾਰਤੀਆਂ ਵੱਲੋਂ',
       sub: 'ਮੁੰਬਈ ਤੋਂ ਚੇਨਈ, ਦਿੱਲੀ ਤੋਂ ਹੈਦਰਾਬਾਦ — ਜੋ ਤੁਹਾਨੂੰ ਨਹੀਂ ਚਾਹੀਦਾ ਉਹ ਕਿਸੇ ਹੋਰ ਨੂੰ ਦਿਓ।',
       startGifting: 'ਅੱਜ ਹੀ ਤੋਹਫ਼ਾ ਦਿਓ',
-      spread: 'I Gift You ਆਪਣੇ ਦੋਸਤਾਂ ਨਾਲ ਸ਼ੇਅਰ ਕਰੋ',
+      spread: 'Gift a Smile ਆਪਣੇ ਦੋਸਤਾਂ ਨਾਲ ਸ਼ੇਅਰ ਕਰੋ',
     },
     subscribe: {
       title: 'ਮੁਫ਼ਤ ਤੋਹਫ਼ਾ ਨਾ ਖੁੰਝੋ!',

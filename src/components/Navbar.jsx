@@ -26,8 +26,8 @@ export default function Navbar() {
             <div className="bg-teal-50 p-1.5 rounded-lg">
               <Gift size={22} className="text-teal-600" />
             </div>
-            <span className="text-teal-600">I Gift</span>
-            <span className="text-teal-700">You</span>
+            <span className="text-teal-600">Gift a</span>
+            <span className="text-teal-700">Smile</span>
           </Link>
 
           {/* Desktop nav */}

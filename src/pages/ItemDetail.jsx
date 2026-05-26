@@ -35,6 +35,7 @@ export default function ItemDetail() {
   const [showShare, setShowShare] = useState(false)
   const [gifting, setGifting] = useState(false)
   const [giftedNow, setGiftedNow] = useState(false)
+  const [now] = useState(() => Date.now())
 
   useEffect(() => {
     getDoc(doc(db, 'items', id)).then(snap => {
@@ -72,14 +73,14 @@ export default function ItemDetail() {
 
   const fallbackImg = PLACEHOLDER_IMGS[item.category] || PLACEHOLDER_IMGS.Other
   const whatsappUrl = `https://wa.me/${item.whatsapp?.replace(/\D/g, '')}?text=${encodeURIComponent(
-    `Hi! I saw your "${item.title}" listed on I Gift You. Is it still available? ðŸŽ`
+    `Hi! I saw your "${item.title}" listed on Gift a Smile. Is it still available?`
   )}`
 
   const conditionClass = CONDITION_COLORS[item.condition] || CONDITION_COLORS['Fair']
 
   const timeAgo = item.createdAt?.seconds
     ? (() => {
-        const diff = Date.now() / 1000 - item.createdAt.seconds
+        const diff = now / 1000 - item.createdAt.seconds
         if (diff < 3600) return `${Math.floor(diff / 60)} minutes ago`
         if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`
         return `${Math.floor(diff / 86400)} days ago`
@@ -105,7 +106,7 @@ export default function ItemDetail() {
             {item.status === 'gifted' && (
               <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
                 <span className="bg-rose-400 text-white font-bold px-6 py-3 rounded-full text-lg">
-                  Gifted âœ“
+                  Gifted
                 </span>
               </div>
             )}
@@ -189,5 +190,3 @@ export default function ItemDetail() {
     </div>
   )
 }
-
-

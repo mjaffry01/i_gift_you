@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "functions:lint": "npm --prefix functions run lint",
+    "functions:deploy": "firebase deploy --only functions"
   },
   "dependencies": {
     "firebase": "^12.13.0",

@@ -1,4 +1,5 @@
 ﻿import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import { MapPin, Clock } from 'lucide-react'
 import { formatDistance, getDistanceKm } from '../utils/distance'
 import { useLanguage } from '../context/LanguageContext'
@@ -27,6 +28,7 @@ const PLACEHOLDER_IMGS = {
 
 export default function ItemCard({ item, userLocation }) {
   const { T } = useLanguage()
+  const [now] = useState(() => Date.now())
   const colorClass = CATEGORY_COLORS[item.category] || CATEGORY_COLORS.Other
   const fallbackImg = PLACEHOLDER_IMGS[item.category] || PLACEHOLDER_IMGS.Other
 
@@ -37,12 +39,12 @@ export default function ItemCard({ item, userLocation }) {
   }
 
   const whatsappUrl = `https://wa.me/${item.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(
-    `Hi! I saw your "${item.title}" listed on I Gift You. Is it still available? ðŸŽ`
+    `Hi! I saw your "${item.title}" listed on Gift a Smile. Is it still available?`
   )}`
 
   const timeAgo = item.createdAt?.seconds
     ? (() => {
-        const diff = Date.now() / 1000 - item.createdAt.seconds
+        const diff = now / 1000 - item.createdAt.seconds
         if (diff < 3600) return `${Math.floor(diff / 60)}m ago`
         if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`
         return `${Math.floor(diff / 86400)}d ago`
@@ -63,7 +65,7 @@ export default function ItemCard({ item, userLocation }) {
           {item.status === 'gifted' && (
             <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
               <span className="bg-rose-400 text-white font-bold px-4 py-2 rounded-full text-sm">
-                Gifted âœ“
+                Gifted
               </span>
             </div>
           )}
