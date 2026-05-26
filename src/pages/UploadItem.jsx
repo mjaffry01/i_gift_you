@@ -408,32 +408,34 @@ export default function UploadItem() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 py-4 md:py-8 px-4">
-      <div className="max-w-xl mx-auto">
-        <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-slate-500 hover:text-slate-700 mb-4 md:mb-6 text-sm">
+    <div
+      className="min-h-screen relative py-4 md:py-8 px-4"
+      style={{
+        backgroundImage: 'url(https://images.unsplash.com/photo-1463335361701-e90f4c5045d0?auto=format&fit=crop&w=1200&q=85)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        backgroundAttachment: 'fixed',
+      }}
+    >
+      {/* Dark overlay so the form stays readable */}
+      <div className="absolute inset-0 bg-teal-950/60" />
+
+      <div className="max-w-xl mx-auto relative z-10">
+        <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-white/80 hover:text-white mb-4 md:mb-6 text-sm">
           <ArrowLeft size={16} /> {U.back}
         </button>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        {/* Tagline above the card */}
+        <div className="mb-4 text-center">
+          <p className="text-white font-bold text-xl md:text-2xl drop-shadow-md">
+            Your gift will make someone smile 🎁
+          </p>
+          <p className="text-teal-100 text-sm mt-1">
+            Give your unused items a second life — free &amp; local.
+          </p>
+        </div>
 
-          {/* Inspirational banner */}
-          <div className="relative h-44 md:h-52">
-            <img
-              src="https://images.unsplash.com/photo-1463335361701-e90f4c5045d0?w=900&q=80"
-              alt="Happy woman smiling"
-              className="w-full h-full object-cover object-top"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-teal-950/80 via-teal-900/30 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
-              <p className="text-white font-bold text-lg md:text-xl leading-snug drop-shadow">
-                Your gift will make someone smile 🎁
-              </p>
-              <p className="text-teal-100 text-xs md:text-sm mt-0.5">
-                Give your unused items a second life — free &amp; local.
-              </p>
-            </div>
-          </div>
-
+        <div className="bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
           <div className="p-5 md:p-8">
           <h1 className="text-2xl font-bold text-slate-800 mb-1">{U.title}</h1>
           <p className="text-slate-500 text-sm mb-6">{U.subtitle}</p>
