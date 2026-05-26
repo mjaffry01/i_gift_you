@@ -49,7 +49,7 @@ export default function Home() {
             <span className="text-4xl">🎁</span>
           </div>
           <p className="text-white text-2xl md:text-3xl font-bold mt-2">
-            🙏 Share love and get love 🙏
+            Share love and get love
           </p>
           <p className="text-teal-100 text-base mt-3 max-w-xl mx-auto">
             Give your unused items a second life — free for anyone who needs them.
