@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { X, Bell, MapPin, CheckCircle2, Loader2 } from 'lucide-react'
 import { subscribeEmail } from '../hooks/useItems'
 
@@ -62,7 +62,7 @@ export default function SubscribeModal({ onClose }) {
         <div className="p-6">
           {done ? (
             <div className="text-center py-6">
-              <CheckCircle2 size={56} className="text-emerald-500 mx-auto mb-4" />
+              <CheckCircle2 size={56} className="text-rose-400 mx-auto mb-4" />
               <h2 className="text-xl font-bold text-slate-800">You're subscribed!</h2>
               <p className="text-slate-500 mt-2">
                 We'll notify you when new items are listed
@@ -70,7 +70,7 @@ export default function SubscribeModal({ onClose }) {
               </p>
               <button
                 onClick={onClose}
-                className="mt-6 bg-emerald-600 text-white px-6 py-2.5 rounded-lg font-medium"
+                className="mt-6 bg-teal-600 text-white px-6 py-2.5 rounded-lg font-medium"
               >
                 Done
               </button>
@@ -78,8 +78,8 @@ export default function SubscribeModal({ onClose }) {
           ) : (
             <>
               <div className="flex items-center gap-3 mb-6">
-                <div className="bg-emerald-100 p-2 rounded-xl">
-                  <Bell size={24} className="text-emerald-600" />
+                <div className="bg-teal-50 p-2 rounded-xl">
+                  <Bell size={24} className="text-teal-600" />
                 </div>
                 <div>
                   <h2 className="text-lg font-bold text-slate-800">Get Notified</h2>
@@ -98,13 +98,13 @@ export default function SubscribeModal({ onClose }) {
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
-                    Your location (optional — for nearby alerts)
+                    Your location (optional â€” for nearby alerts)
                   </label>
                   <div className="flex gap-2">
                     <input
@@ -112,13 +112,13 @@ export default function SubscribeModal({ onClose }) {
                       value={locationName}
                       onChange={e => setLocationName(e.target.value)}
                       placeholder="e.g. Cape Town, Sandton..."
-                      className="flex-1 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                      className="flex-1 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                     />
                     <button
                       type="button"
                       onClick={detectLocation}
                       disabled={detecting}
-                      className="flex items-center gap-1.5 text-sm text-emerald-600 border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 px-3 py-2 rounded-xl whitespace-nowrap transition-colors"
+                      className="flex items-center gap-1.5 text-sm text-teal-600 border border-teal-100 bg-teal-50 hover:bg-teal-50 px-3 py-2 rounded-xl whitespace-nowrap transition-colors"
                     >
                       {detecting ? <Loader2 size={14} className="animate-spin" /> : <MapPin size={14} />}
                       Detect
@@ -131,7 +131,7 @@ export default function SubscribeModal({ onClose }) {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
+                  className="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
                 >
                   {loading ? <Loader2 size={18} className="animate-spin" /> : <Bell size={18} />}
                   Subscribe for Free
@@ -144,3 +144,5 @@ export default function SubscribeModal({ onClose }) {
     </div>
   )
 }
+
+

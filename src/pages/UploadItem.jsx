@@ -108,7 +108,7 @@ export default function UploadItem() {
       <div className="min-h-screen flex items-center justify-center p-4 bg-slate-50">
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-10 max-w-md w-full text-center">
           <div className="text-6xl mb-4">ðŸŽ</div>
-          <CheckCircle2 size={48} className="text-orange-400 mx-auto mb-3" />
+          <CheckCircle2 size={48} className="text-teal-500 mx-auto mb-3" />
           <h2 className="text-2xl font-bold text-slate-800">Item Listed!</h2>
           <p className="text-slate-500 mt-2 text-sm">
             Your item is now live. People near <strong>{form.locationName}</strong> can find it and contact you directly.
@@ -117,7 +117,7 @@ export default function UploadItem() {
             <button onClick={() => navigate('/')} className="flex-1 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-medium hover:bg-slate-50">
               Browse gifts
             </button>
-            <button onClick={resetForm} className="flex-1 bg-orange-500 text-white py-2.5 rounded-xl font-medium">
+            <button onClick={resetForm} className="flex-1 bg-teal-600 text-white py-2.5 rounded-xl font-medium">
               List another
             </button>
           </div>
@@ -183,7 +183,7 @@ export default function UploadItem() {
                 <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input type="text" value={form.gifterName} onChange={e => handleChange('gifterName', e.target.value)}
                   placeholder="e.g. Priya Sharma, Ramesh Kumar"
-                  className={`w-full border rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 ${errors.gifterName ? 'border-red-400' : 'border-slate-200'}`} />
+                  className={`w-full border rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 ${errors.gifterName ? 'border-red-400' : 'border-slate-200'}`} />
               </div>
             </Field>
 
@@ -191,7 +191,7 @@ export default function UploadItem() {
             <Field label="Item name" required error={errors.title}>
               <input type="text" value={form.title} onChange={e => handleChange('title', e.target.value)}
                 placeholder="e.g. Kids cricket bat, Class 5 NCERT books, Cotton salwar kameez..."
-                className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 ${errors.title ? 'border-red-400' : 'border-slate-200'}`} />
+                className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 ${errors.title ? 'border-red-400' : 'border-slate-200'}`} />
             </Field>
 
             {/* Description */}
@@ -199,21 +199,21 @@ export default function UploadItem() {
               <textarea value={form.description} onChange={e => handleChange('description', e.target.value)}
                 placeholder="e.g. Size M kurta, worn twice, good condition. Suitable for ages 6â€“10. Gifting as child has outgrown it..."
                 rows={3}
-                className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none" />
+                className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 resize-none" />
             </Field>
 
             {/* Category & Condition */}
             <div className="grid grid-cols-2 gap-4">
               <Field label="Category" required error={errors.category}>
                 <select value={form.category} onChange={e => handleChange('category', e.target.value)}
-                  className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 ${errors.category ? 'border-red-400' : 'border-slate-200'}`}>
+                  className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 ${errors.category ? 'border-red-400' : 'border-slate-200'}`}>
                   <option value="">Select category...</option>
                   {CATEGORIES.map(c => <option key={c}>{c}</option>)}
                 </select>
               </Field>
               <Field label="Condition" required error={errors.condition}>
                 <select value={form.condition} onChange={e => handleChange('condition', e.target.value)}
-                  className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 ${errors.condition ? 'border-red-400' : 'border-slate-200'}`}>
+                  className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 ${errors.condition ? 'border-red-400' : 'border-slate-200'}`}>
                   <option value="">Select condition...</option>
                   {CONDITIONS.map(c => <option key={c}>{c}</option>)}
                 </select>
@@ -227,7 +227,7 @@ export default function UploadItem() {
                   <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                   <input type="tel" value={form.phone} onChange={e => handleChange('phone', e.target.value)}
                     placeholder="e.g. 09876543210"
-                    className="w-full border border-slate-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
+                    className="w-full border border-slate-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
                 </div>
               </Field>
               <Field label="WhatsApp number" required error={errors.whatsapp}>
@@ -237,7 +237,7 @@ export default function UploadItem() {
                   </svg>
                   <input type="tel" value={form.whatsapp} onChange={e => handleChange('whatsapp', e.target.value)}
                     placeholder="e.g. 919876543210"
-                    className={`w-full border rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 ${errors.whatsapp ? 'border-red-400' : 'border-slate-200'}`} />
+                    className={`w-full border rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 ${errors.whatsapp ? 'border-red-400' : 'border-slate-200'}`} />
                 </div>
                 <p className="text-xs text-slate-400 mt-1">With country code e.g. 919876543210</p>
               </Field>
@@ -250,7 +250,7 @@ export default function UploadItem() {
                 <textarea value={form.address} onChange={e => handleChange('address', e.target.value)}
                   placeholder="e.g. 24 MG Road, Indiranagar, Bengaluru&#10;(Where the person should collect the item)"
                   rows={2}
-                  className={`w-full border rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none ${errors.address ? 'border-red-400' : 'border-slate-200'}`} />
+                  className={`w-full border rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 resize-none ${errors.address ? 'border-red-400' : 'border-slate-200'}`} />
               </div>
             </Field>
 
@@ -259,9 +259,9 @@ export default function UploadItem() {
               <div className="flex gap-2">
                 <input type="text" value={form.locationName} onChange={e => handleChange('locationName', e.target.value)}
                   placeholder="e.g. Andheri Mumbai, Koramangala Bengaluru, Banjara Hills Hyderabad..."
-                  className={`flex-1 border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 ${errors.locationName ? 'border-red-400' : 'border-slate-200'}`} />
+                  className={`flex-1 border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 ${errors.locationName ? 'border-red-400' : 'border-slate-200'}`} />
                 <button type="button" onClick={detectLocation} disabled={detecting}
-                  className="flex items-center gap-1.5 text-sm text-orange-500 border border-orange-200 bg-orange-50 hover:bg-orange-100 px-3 py-2 rounded-xl whitespace-nowrap transition-colors">
+                  className="flex items-center gap-1.5 text-sm text-teal-600 border border-teal-200 bg-teal-50 hover:bg-teal-50 px-3 py-2 rounded-xl whitespace-nowrap transition-colors">
                   {detecting ? <Loader2 size={14} className="animate-spin" /> : <MapPin size={14} />}
                   Detect
                 </button>
@@ -273,7 +273,7 @@ export default function UploadItem() {
             )}
 
             <button type="submit" disabled={loading}
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3.5 rounded-xl font-semibold text-base flex items-center justify-center gap-2 transition-colors">
+              className="w-full bg-teal-600 hover:bg-teal-700 text-white py-3.5 rounded-xl font-semibold text-base flex items-center justify-center gap-2 transition-colors">
               {loading ? <Loader2 size={20} className="animate-spin" /> : <Upload size={20} />}
               {loading ? 'Uploading your gift...' : 'List My Gift for Free'}
             </button>
@@ -283,3 +283,4 @@ export default function UploadItem() {
     </div>
   )
 }
+

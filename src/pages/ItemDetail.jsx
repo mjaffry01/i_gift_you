@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase'
@@ -17,7 +17,7 @@ const PLACEHOLDER_IMGS = {
 }
 
 const CONDITION_COLORS = {
-  'Like New': 'text-emerald-600 bg-emerald-50 border-emerald-200',
+  'Like New': 'text-teal-600 bg-teal-50 border-teal-100',
   'Good': 'text-blue-600 bg-blue-50 border-blue-200',
   'Fair': 'text-amber-600 bg-amber-50 border-amber-200',
   'Worn': 'text-slate-600 bg-slate-50 border-slate-200',
@@ -53,7 +53,7 @@ export default function ItemDetail() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 size={36} className="animate-spin text-emerald-500" />
+        <Loader2 size={36} className="animate-spin text-rose-400" />
       </div>
     )
   }
@@ -62,14 +62,14 @@ export default function ItemDetail() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 text-slate-500">
         <p>Item not found.</p>
-        <button onClick={() => navigate('/')} className="text-emerald-600 underline">Back to listings</button>
+        <button onClick={() => navigate('/')} className="text-teal-600 underline">Back to listings</button>
       </div>
     )
   }
 
   const fallbackImg = PLACEHOLDER_IMGS[item.category] || PLACEHOLDER_IMGS.Other
   const whatsappUrl = `https://wa.me/${item.whatsapp?.replace(/\D/g, '')}?text=${encodeURIComponent(
-    `Hi! I saw your "${item.title}" listed on I Gift You. Is it still available? 🎁`
+    `Hi! I saw your "${item.title}" listed on I Gift You. Is it still available? ðŸŽ`
   )}`
 
   const conditionClass = CONDITION_COLORS[item.condition] || CONDITION_COLORS['Fair']
@@ -101,8 +101,8 @@ export default function ItemDetail() {
             />
             {item.status === 'gifted' && (
               <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                <span className="bg-emerald-500 text-white font-bold px-6 py-3 rounded-full text-lg">
-                  Gifted ✓
+                <span className="bg-rose-400 text-white font-bold px-6 py-3 rounded-full text-lg">
+                  Gifted âœ“
                 </span>
               </div>
             )}
@@ -156,7 +156,7 @@ export default function ItemDetail() {
                   <button
                     onClick={handleMarkGifted}
                     disabled={gifting}
-                    className="flex items-center justify-center gap-2 border-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 font-medium py-3.5 px-5 rounded-xl transition-colors"
+                    className="flex items-center justify-center gap-2 border-2 border-teal-300 text-teal-700 hover:bg-teal-50 font-medium py-3.5 px-5 rounded-xl transition-colors"
                   >
                     {gifting ? <Loader2 size={18} className="animate-spin" /> : <CheckCircle2 size={18} />}
                     Mark as Gifted
@@ -173,7 +173,7 @@ export default function ItemDetail() {
             </div>
 
             {giftedNow && (
-              <div className="mt-4 bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex items-center gap-3 text-emerald-700">
+              <div className="mt-4 bg-teal-50 border border-teal-100 rounded-xl p-4 flex items-center gap-3 text-teal-700">
                 <CheckCircle2 size={20} className="shrink-0" />
                 <p className="text-sm font-medium">
                   Amazing! You've made someone's day. Share the news and inspire others to give!
@@ -188,3 +188,5 @@ export default function ItemDetail() {
     </div>
   )
 }
+
+
