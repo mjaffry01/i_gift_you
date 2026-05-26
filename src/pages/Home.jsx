@@ -43,8 +43,15 @@ export default function Home() {
         <div className="absolute top-0 right-0 w-72 h-72 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-52 h-52 rounded-full bg-white/5 translate-y-1/2 -translate-x-1/2" />
         <div className="max-w-3xl mx-auto text-center relative">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">I Gift You</h1>
-          <p className="text-teal-100 text-lg md:text-xl mt-3 max-w-xl mx-auto font-medium">
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <span className="text-4xl">🎁</span>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">I Gift You</h1>
+            <span className="text-4xl">🎁</span>
+          </div>
+          <p className="text-white text-2xl md:text-3xl font-bold mt-2">
+            🙏 Share love and get love 🙏
+          </p>
+          <p className="text-teal-100 text-base mt-3 max-w-xl mx-auto">
             Give your unused items a second life — free for anyone who needs them.
           </p>
           <p className="text-teal-50 text-sm mt-2 max-w-lg mx-auto">
