@@ -11,12 +11,15 @@ export default function App() {
     <LanguageProvider>
       <BrowserRouter>
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/upload" element={<UploadItem />} />
-          <Route path="/item/:id" element={<ItemDetail />} />
-          <Route path="/mark-gifted/:id" element={<MarkGifted />} />
-        </Routes>
+        {/* pb-16 reserves space for the mobile bottom nav bar */}
+        <div className="pb-16 md:pb-0">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/upload" element={<UploadItem />} />
+            <Route path="/item/:id" element={<ItemDetail />} />
+            <Route path="/mark-gifted/:id" element={<MarkGifted />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </LanguageProvider>
   )

@@ -57,14 +57,14 @@ export default function ShareModal({ item, onClose }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg relative">
-        <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-black/40 backdrop-blur-sm">
+      <div className="bg-white rounded-t-2xl sm:rounded-2xl shadow-xl w-full sm:max-w-lg relative">
+        <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1">
           <X size={20} />
         </button>
 
-        <div className="p-6">
-          <div className="flex items-center gap-3 mb-5">
+        <div className="p-5 md:p-6">
+          <div className="flex items-center gap-3 mb-4 md:mb-5">
             <div className="bg-emerald-100 p-2 rounded-xl">
               <Share2 size={22} className="text-emerald-600" />
             </div>
@@ -75,12 +75,12 @@ export default function ShareModal({ item, onClose }) {
           </div>
 
           {/* Platform tabs */}
-          <div className="flex gap-2 flex-wrap mb-4">
+          <div className="flex gap-2 overflow-x-auto pb-1 mb-4 scrollbar-hide">
             {PLATFORMS.map(p => (
               <button
                 key={p.key}
                 onClick={() => setActive(p.key)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
                   active === p.key
                     ? `${p.color} text-white shadow-sm`
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -93,7 +93,7 @@ export default function ShareModal({ item, onClose }) {
           </div>
 
           {/* Message preview */}
-          <div className="bg-slate-50 rounded-xl border border-slate-200 p-4 text-sm text-slate-700 whitespace-pre-line leading-relaxed min-h-[140px]">
+          <div className="bg-slate-50 rounded-xl border border-slate-200 p-3 md:p-4 text-sm text-slate-700 whitespace-pre-line leading-relaxed min-h-[100px] md:min-h-[140px] max-h-40 md:max-h-none overflow-y-auto">
             {messages[active]}
           </div>
 

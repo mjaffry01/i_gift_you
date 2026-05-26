@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { Gift, Bell, Menu, X, PlusCircle, Globe } from 'lucide-react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { Gift, Bell, Menu, X, PlusCircle, Globe, Search } from 'lucide-react'
 import SubscribeModal from './SubscribeModal'
 import { useLanguage } from '../context/LanguageContext'
 
@@ -9,6 +9,7 @@ export default function Navbar() {
   const [showSubscribe, setShowSubscribe] = useState(false)
   const [showLangMenu, setShowLangMenu] = useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
   const { T, lang, setLang, LANGUAGES } = useLanguage()
 
   function switchLang(code) {
@@ -132,6 +133,42 @@ export default function Navbar() {
       </nav>
 
       {showSubscribe && <SubscribeModal onClose={() => setShowSubscribe(false)} />}
+
+      {/* Mobile bottom navigation bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white border-t border-slate-200 shadow-lg safe-area-bottom">
+        <div className="flex items-stretch h-16 px-2">
+          {/* Browse */}
+          <Link
+            to="/"
+            className={`flex-1 flex flex-col items-center justify-center gap-0.5 text-xs font-medium transition-colors ${
+              location.pathname === '/' ? 'text-teal-600' : 'text-slate-500'
+            }`}
+          >
+            <Search size={20} strokeWidth={location.pathname === '/' ? 2.5 : 1.8} />
+            {T.nav.browse}
+          </Link>
+
+          {/* Gift an Item — centre pill */}
+          <div className="flex items-center justify-center px-2">
+            <button
+              onClick={() => navigate('/upload')}
+              className="flex items-center gap-1.5 bg-teal-600 active:bg-teal-700 text-white px-5 py-2.5 rounded-2xl font-semibold text-sm shadow-md"
+            >
+              <PlusCircle size={17} />
+              {T.nav.gift}
+            </button>
+          </div>
+
+          {/* Notify */}
+          <button
+            onClick={() => setShowSubscribe(true)}
+            className="flex-1 flex flex-col items-center justify-center gap-0.5 text-xs font-medium text-slate-500"
+          >
+            <Bell size={20} strokeWidth={1.8} />
+            {T.nav.notify}
+          </button>
+        </div>
+      </div>
     </>
   )
 }

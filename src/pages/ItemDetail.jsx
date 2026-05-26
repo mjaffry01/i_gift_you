@@ -88,15 +88,15 @@ export default function ItemDetail() {
     : 'Just now'
 
   return (
-    <div className="min-h-screen bg-slate-50 py-6 px-4">
+    <div className="min-h-screen bg-slate-50 py-3 md:py-6 px-3 md:px-4">
       <div className="max-w-3xl mx-auto">
-        <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-slate-500 hover:text-slate-700 mb-5 text-sm">
+        <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-slate-500 hover:text-slate-700 mb-3 md:mb-5 text-sm py-1">
           <ArrowLeft size={16} /> {D.back}
         </button>
 
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
           {/* Image */}
-          <div className="relative h-72 md:h-96 bg-slate-100">
+          <div className="relative h-56 md:h-96 bg-slate-100">
             <img
               src={item.imageUrl || fallbackImg}
               alt={item.title}
@@ -116,11 +116,11 @@ export default function ItemDetail() {
           </div>
 
           {/* Content */}
-          <div className="p-6 md:p-8">
+          <div className="p-4 md:p-8">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h1 className="text-2xl font-bold text-slate-800">{item.title}</h1>
-                <div className="flex items-center gap-3 mt-2 flex-wrap">
+                <h1 className="text-xl md:text-2xl font-bold text-slate-800">{item.title}</h1>
+                <div className="flex items-center gap-2 mt-2 flex-wrap">
                   <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${conditionClass}`}>
                     {item.condition}
                   </span>

@@ -43,7 +43,7 @@ export default function Home() {
     <div>
 
       {/* Hero */}
-      <div className="relative text-white min-h-[430px] md:min-h-[460px] px-4 overflow-hidden bg-slate-900 flex items-center">
+      <div className="relative text-white min-h-[380px] md:min-h-[460px] px-4 overflow-hidden bg-slate-900 flex items-center">
         <img
           src={heroImage}
           alt=""
@@ -211,20 +211,20 @@ export default function Home() {
       </div>
 
       {/* Bottom banner */}
-      <div className="bg-teal-700 text-white py-5 md:py-10 px-4 text-center">
-        <p className="text-xl md:text-2xl font-bold mb-2 hidden md:block">{T.footer.title}</p>
-        <p className="text-teal-100 text-sm max-w-lg mx-auto hidden md:block">
+      <div className="bg-teal-700 text-white py-6 md:py-10 px-4 text-center">
+        <p className="text-lg md:text-2xl font-bold mb-1 md:mb-2">{T.footer.title}</p>
+        <p className="text-teal-100 text-xs md:text-sm max-w-lg mx-auto">
           {T.footer.sub}
         </p>
         <button
           onClick={() => navigate('/upload')}
-          className="hidden md:inline-flex mt-5 bg-white hover:bg-teal-50 text-teal-700 px-6 py-3 rounded-xl font-semibold transition-colors shadow-sm"
+          className="mt-4 md:mt-5 inline-flex items-center gap-2 bg-white hover:bg-teal-50 text-teal-700 px-6 py-3 rounded-xl font-semibold transition-colors shadow-sm text-sm md:text-base"
         >
           {T.footer.startGifting}
         </button>
 
         {/* Share this website */}
-        <div className="md:mt-8 md:border-t md:border-teal-600 md:pt-8">
+        <div className="mt-5 border-t border-teal-600 pt-5 md:mt-8 md:pt-8">
           <p className="text-teal-100 text-xs md:text-sm font-medium mb-3">{T.footer.spread}</p>
           <div className="flex items-center justify-center gap-3 flex-wrap">
             {/* WhatsApp */}

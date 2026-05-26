@@ -336,7 +336,7 @@ export default function UploadItem() {
   if (done) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 bg-slate-50">
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-10 max-w-md w-full text-center">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-10 max-w-md w-full text-center">
           <div className="w-16 h-16 bg-teal-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <Gift size={36} className="text-teal-600" />
           </div>
@@ -408,13 +408,13 @@ export default function UploadItem() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4">
+    <div className="min-h-screen bg-slate-50 py-4 md:py-8 px-4">
       <div className="max-w-xl mx-auto">
-        <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-slate-500 hover:text-slate-700 mb-6 text-sm">
+        <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-slate-500 hover:text-slate-700 mb-4 md:mb-6 text-sm">
           <ArrowLeft size={16} /> {U.back}
         </button>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 md:p-8">
           <h1 className="text-2xl font-bold text-slate-800 mb-1">{U.title}</h1>
           <p className="text-slate-500 text-sm mb-6">{U.subtitle}</p>
 
@@ -513,17 +513,17 @@ export default function UploadItem() {
                         className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 resize-none" />
                     </Field>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <Field label={U.catLabel} required error={giftErrors.category}>
                         <select value={gift.category} onChange={e => handleGiftChange(index, 'category', e.target.value)}
-                          className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 ${giftErrors.category ? 'border-red-400' : 'border-slate-200'}`}>
+                          className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 ${giftErrors.category ? 'border-red-400' : 'border-slate-200'}`}>
                           <option value="">{U.catPH}</option>
                           {CATEGORIES.map(c => <option key={c} value={c}>{T.cats[c]}</option>)}
                         </select>
                       </Field>
                       <Field label={U.condLabel} required error={giftErrors.condition}>
                         <select value={gift.condition} onChange={e => handleGiftChange(index, 'condition', e.target.value)}
-                          className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 ${giftErrors.condition ? 'border-red-400' : 'border-slate-200'}`}>
+                          className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 ${giftErrors.condition ? 'border-red-400' : 'border-slate-200'}`}>
                           <option value="">{U.condPH}</option>
                           {CONDITIONS.map(c => <option key={c} value={c}>{U.conditions[c]}</option>)}
                         </select>
@@ -536,7 +536,7 @@ export default function UploadItem() {
             <input ref={fileRef} type="file" accept="image/*" capture="environment" onChange={handleImage} className="hidden" />
 
             {/* Phone & WhatsApp */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Field label={U.phoneLabel} error={errors.phone}>
                 <div className="relative">
                   <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
